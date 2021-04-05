@@ -1,17 +1,17 @@
 # テーブル
 
-## User
+## Users
 
 | Column              | Type    | Options                   |
 | ------------------- | ------- | ------------------------- |
 | nickname            | string  | null: false               |
 | email               | string  | null: false, unique: true |
-| password            | integer | null: false               |
+| encrypted_password  | integer | null: false               |
 | first_name          | string  | null: false               |
 | last_name           | string  | null: false               |
 | first_name_furigana | string  | null: false               |
 | last_name_furigana  | string  | null: false               |
-| birthday            | integer | null: false               |
+| birthday            | date    | null: false               |
 
 ### Association
 
@@ -20,28 +20,28 @@
 
 
 
-## Item
+## Items
 
-| Column        | Type       | Options                       |
-| ------------- | ---------- | ------------------------------|
-| name          | string     | null:false                    |
-| describe      | text       | null:false                    |
-| category      | string     | null:false                    |
-| condition     | string     | null:false                    |
-| shipping_fee  | integer    | null:false                    |
-| prefecture    | string     | null:false                    |
-| shipping_days | integer    | null:false                    |
-| price         | integer    | null:false                    |
-| user          | references | null:false, foreign_key: true |
+| Column          | Type       | Options                       |
+| --------------- | ---------- | ------------------------------|
+| name            | string     | null:false                    |
+| describe        | text       | null:false                    |
+| category_id     | integer    | null:false                    |
+| condition_id    | integer    | null:false                    |
+| shipping_fee_id | integer    | null:false                    |
+| prefecture_id   | integer    | null:false                    |
+| shipping_day_id | integer    | null:false                    |
+| price           | integer    | null:false                    |
+| user            | references | null:false, foreign_key: true |
 
 ### Association
 
 - belongs_to :user
-- belongs_to :purchase
+- has_one :purchase
 
 
 
-## Purchase
+## Purchases
 
 | Column | Type       | Options                       |
 | ------ | ---------- | ----------------------------- |
@@ -51,22 +51,23 @@
 ### Association
 
 - belongs_to :user
-- has_one    :item
-- belongs_to :shipping
+- belongs_to :item
+- has_one    :shipping
 
 
 
-## Shipping
+## Shippings
 
-| column      | Type       | options
-| ----------- | ---------- | ----------------------------- |
-| postal_cord | integer    | null:false                    |
-| prefecture  | string     | null:false                    |
-| city        | string     | null:false                    |
-| address     | integer    | null:false                    |
-| telephone   | integer    | null:false                    |
-| purchase    | references | null:false, foreign_key: true |
+| column        | Type       | options
+| ------------- | ---------- | ----------------------------- |
+| postal_cord   | integer    | null:false                    |
+| prefecture_id | integer    | null:false                    |
+| city          | string     | null:false                    |
+| address       | string     | null:false                    |
+| building      | string     |                               |
+| telephone     | string     | null:false                    |
+| purchase      | references | null:false, foreign_key: true |
 
 ### Association
 
-- has_one :purchase
+- belongs_to :purchase
