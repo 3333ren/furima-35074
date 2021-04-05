@@ -6,7 +6,7 @@
 | ------------------- | ------- | ------------------------- |
 | nickname            | string  | null: false               |
 | email               | string  | null: false, unique: true |
-| encrypted_password  | integer | null: false               |
+| encrypted_password  | string  | null: false               |
 | first_name          | string  | null: false               |
 | last_name           | string  | null: false               |
 | first_name_furigana | string  | null: false               |
@@ -60,7 +60,7 @@
 
 | column        | Type       | options
 | ------------- | ---------- | ----------------------------- |
-| postal_cord   | integer    | null:false                    |
+| postal_cord   | string     | null:false                    |
 | prefecture_id | integer    | null:false                    |
 | city          | string     | null:false                    |
 | address       | string     | null:false                    |
