@@ -9,7 +9,7 @@ class User < ApplicationRecord
     validates :nickname
     validates :birthday
 
-    with_options format: { with: /\A[ぁ-んァ-ン一-龥]+\z/, message: 'full-width characters' } do
+    with_options format: { with: /\A[ぁ-んァ-ン一-龥々]+\z/, message: 'full-width characters' } do
       validates :first_name
       validates :last_name
     end
