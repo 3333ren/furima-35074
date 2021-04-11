@@ -7,22 +7,7 @@ RSpec.describe Item, type: :model do
 
   describe '出品商品の登録' do
     context '商品が登録できる場合' do
-      it '画像に値があれば登録できる' do
-        expect(@item).to be_valid
-      end
-
-      it '商品名に値があれば登録できる' do
-        @item.name = 'テスト商品'
-        expect(@item).to be_valid
-      end
-
-      it '商品説明に値があれば登録できる' do
-        @item.describe = 'テスト商品説明'
-        expect(@item).to be_valid
-      end
-
-      it '販売価格の値が半角数字のみであれば登録できる' do
-        @item.describe = '555555'
+      it '全ての値が正しければ登録できる' do
         expect(@item).to be_valid
       end
     end
@@ -53,7 +38,7 @@ RSpec.describe Item, type: :model do
       end
 
       it 'カテゴリーの値が0であれば登録できない' do
-        @item.category_id = '0'
+        @item.category_id = 0
         @item.valid?
         expect(@item.errors.full_messages).to include('Category select')
       end
@@ -65,7 +50,7 @@ RSpec.describe Item, type: :model do
       end
 
       it '商品状態の値が0であれば登録できない' do
-        @item.condition_id = '0'
+        @item.condition_id = 0
         @item.valid?
         expect(@item.errors.full_messages).to include('Condition select')
       end
@@ -77,7 +62,7 @@ RSpec.describe Item, type: :model do
       end
 
       it '配送料負担の値が0であれば登録できない' do
-        @item.shipping_fee_id = '0'
+        @item.shipping_fee_id = 0
         @item.valid?
         expect(@item.errors.full_messages).to include('Shipping fee select')
       end
@@ -89,7 +74,7 @@ RSpec.describe Item, type: :model do
       end
 
       it '発送元地域の値が0であれば登録できない' do
-        @item.prefecture_id = '0'
+        @item.prefecture_id = 0
         @item.valid?
         expect(@item.errors.full_messages).to include('Prefecture select')
       end
@@ -101,7 +86,7 @@ RSpec.describe Item, type: :model do
       end
 
       it '発送日数の値が0であれば登録できない' do
-        @item.shipping_day_id = '0'
+        @item.shipping_day_id = 0
         @item.valid?
         expect(@item.errors.full_messages).to include('Shipping day select')
       end
@@ -124,8 +109,20 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include('Price out of setting range')
       end
 
-      it '販売価格の値が半角数字のみでなければ登録できない' do
-        @item.price = "５００"
+      it '全角数字では登録できない' do
+        @item.price = '５００'
+        @item.valid?
+        expect(@item.errors.full_messages).to include('Price half-width number')
+      end
+
+      it '半角英数混在では登録できない' do
+        @item.price = "abc123"
+        @item.valid?
+        expect(@item.errors.full_messages).to include('Price half-width number')
+      end
+
+      it '半角英語では登録できない' do
+        @item.price = "abcde"
         @item.valid?
         expect(@item.errors.full_messages).to include('Price half-width number')
       end
