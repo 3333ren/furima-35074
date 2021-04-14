@@ -1,6 +1,7 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create,:edit]
-  before_action :user_select, only: [:edit]
+  before_action :item_set, only: [:show, :edit, :update]
+  before_action :user_select, only: [:edit, :update]
 
   def index
     @items = Item.all.order('created_at DESC')
@@ -20,14 +21,12 @@ class ItemsController < ApplicationController
   end
 
   def show
-    @item = Item.find(params[:id])
   end
 
   def edit
   end
 
   def update
-    @item = Item.find(params[:id])
     if @item.update(item_params)
       redirect_to item_path(@item)
     else
@@ -42,8 +41,11 @@ class ItemsController < ApplicationController
                                  :shipping_day_id, :price, :image).merge(user_id: current_user.id)
   end
 
-  def user_select
+  def item_set
     @item = Item.find(params[:id])
+  end
+
+  def user_select
     if @item.user_id == current_user.id
       true
     else
