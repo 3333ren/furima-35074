@@ -2,12 +2,19 @@ require 'rails_helper'
 
 RSpec.describe 'Orders', type: :request do
   before do
-    @order = FactoryBot.build(:order)
+    user = FactoryBot.create(:user)
+    item = FactoryBot.create(:item)
+    @order = FactoryBot.build(:order, user_id: user.id, item_id: item.id)
   end
 
   describe '商品の購入' do
     context '商品が購入できる場合' do
       it '全ての値が正しければ登録できる' do
+        expect(@order).to be_valid
+      end
+
+      it '建物名の値が空でも登録できる' do
+        @order.building = ''
         expect(@order).to be_valid
       end
     end
