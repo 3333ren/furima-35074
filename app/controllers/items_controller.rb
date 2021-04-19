@@ -4,7 +4,7 @@ class ItemsController < ApplicationController
   before_action :user_select, only: [:edit, :update, :destroy]
 
   def index
-    @items = Item.all.order('created_at DESC')
+    @items = Item.includes(:purchase).order('created_at DESC')
   end
 
   def new
@@ -47,11 +47,11 @@ class ItemsController < ApplicationController
   end
 
   def item_set
-    @item = Item.find(params[:id])
+    @item = Item.includes(:purchase).find(params[:id])
   end
 
   def user_select
-    if @item.user_id == current_user.id
+    if @item.user_id == current_user.id && @item.purchase.blank?
       true
     else
       redirect_to root_path

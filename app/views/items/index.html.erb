@@ -131,17 +131,16 @@
         <div class='item-img-content'>
           <%= image_tag item.image, class: "item-img" %>
 
-          <%# 商品が売れていればsold outを表示しましょう %>
+          <% if item.purchase.present?%>
           <div class='sold-out'>
             <span>Sold Out!!</span>
           </div>
-          <%# //商品が売れていればsold outを表示しましょう %>
-
+          <% end %>
         </div>
+        
         <div class='item-info'>
           <h3 class='item-name'>
             <%= item.name %>
-            
           </h3>
           <div class='item-price'>
             <span><%= item.price %>円<br><%= item.shipping_fee.name %></span>
